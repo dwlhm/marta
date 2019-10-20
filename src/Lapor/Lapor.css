@@ -1,0 +1,13 @@
+#lapora {
+    text-align:center;
+    margin: 10px 0 30px 0;
+}
+#form-lapora {
+    padding:10px;
+}
+.none {
+    display: none;
+}
+.tampil {
+    display: block;
+}

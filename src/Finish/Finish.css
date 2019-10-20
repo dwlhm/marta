@@ -1,0 +1,14 @@
+#finish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+    line-height: 40px;
+}
+.none {
+    display: none;
+}
+.tampil {
+    display: block;
+}

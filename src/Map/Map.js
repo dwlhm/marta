@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
+import { Link } from "react-router-dom";
+import randToken from 'rand-token';
 import './Map.css';
 
 export default class Map extends Component {
@@ -63,11 +65,53 @@ export default class Map extends Component {
             console.log("ERROR GEOLOCATION");
         }
     }
-
+    
+    
   
 
   render() {
     return (
+        <div>
+            <nav className="navbar is-transparent" id="second">
+            <div className="navbar-brand">
+              <Link className="navbar-item" to="/">
+                <h1 className="title">Marta</h1>
+              </Link>
+              <div className="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <div id="navbarExampleTransparentExample" className="navbar-menu">
+
+              <div className="navbar-end">
+                <div className="navbar-item">
+                  <div className="field is-grouped">
+                    <p className="control">
+                      <Link className="bd-tw-button button" to="/profil/">
+                        <span className="icon">
+                        <i class="far fa-id-badge"></i>
+                        </span>
+                        <span>
+                          Profil Saya
+                        </span>
+                      </Link>
+                    </p>
+                    <p className="control">
+                      <Link className="button is-primary" to="/lapor/">
+                        <span className="icon">
+                          <i class="fas fa-bug"></i>
+                        </span>
+                        <span>Laporkan</span>
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
         <div id="div">
             <ReactMapGL 
                 {...this.state.viewport}
@@ -80,8 +124,16 @@ export default class Map extends Component {
                 </Marker>
             </ ReactMapGL>
             <div  id="aneh">
-                <a class="button is-link"><span className="icon"><i class="fas fa-car-side"></i></span><span>Jemput Saya</span></a>
+                <Link class="button is-link"  to={ "/jemputsaya/" + this.state.viewport.latitude + "/" + this.state.viewport.longitude + "/" + randToken.generate(16) }>
+                    <span className="icon">
+                        <i class="fas fa-car-side"></i>
+                    </span>
+                    <span>
+                        Jemput Saya
+                    </span>
+                </Link>
             </div>
+        </div>
         </div>
     );
   }

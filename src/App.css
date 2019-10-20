@@ -5,7 +5,7 @@
   right: 5em;
   bottom: 5em;
   box-shadow: 0 0 33px rgb(0,0,0,0.2);
-  overflow: hidden;
+  overflow: auto;
   border-radius: .3em;
 }
 #second {

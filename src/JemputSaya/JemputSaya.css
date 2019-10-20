@@ -1,0 +1,17 @@
+.none {
+    display: none;
+}
+.tampil {
+    display: block;
+}
+#hmm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 10px;
+}
+#hmmm {
+    float: right;
+}
