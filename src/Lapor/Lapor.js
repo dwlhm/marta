@@ -13,6 +13,10 @@ export default class Home extends  Component {
         }
     }
 
+    _laporMang() {
+        
+    }
+
     render() {
         return (
             <div>
