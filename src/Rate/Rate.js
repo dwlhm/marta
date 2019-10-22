@@ -4,7 +4,7 @@ import axios from 'axios';
 import './Rate.css';
 
 
-export default class Finish extends  Component {
+export default class Rate extends  Component {
     constructor(props) {
         super(props);
         const { match: { params }} = this.props;
@@ -16,44 +16,13 @@ export default class Finish extends  Component {
             error: "none",
             lanjuut: "none"
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        axios.get("https://earthmarta.herokuapp.com/penumpang/"+this.state.token+"/"+this.state.value)
-        .then( (response) => {
-            console.log(response);
-            if(Number(response.statusCode) == 200) {
-                this.setState({
-                    getReq: "none",
-                    loading: "none",
-                    lanjuut: "tampil",
-                    error: "none"
-                })
-            }
-        })
-        .catch( (error) => {
-            console.log(error);
-            this.setState({ 
-                error: "tampil", 
-                getReq: "none",
-                lanjuut: "tampil", 
-                loading: "none"
-            })
-        })
-    }
-
+/*
     componentWillMount () {
         axios.get("https://earthmarta.herokuapp.com/penumpang/"+this.state.token+"/turun")
         .then( (response) => {
             console.log(response);
-            if(Number(response.statusCode) == 200) {
+            if(Number(response.statusCode) === 200) {
                 this.setState({
                     getReq: "tampil",
                     loading: "none",
@@ -72,6 +41,7 @@ export default class Finish extends  Component {
             })
         })
     }
+    */
 
     render() {
         return (
@@ -92,15 +62,15 @@ export default class Finish extends  Component {
                         </div>
                     </div>
                     <div className="field">
-                        <div class="control">
-                                <input class="button is-primary" type="submit" value="Submit" />
+                        <div className="control">
+                                <input className="button is-primary" type="submit" value="Submit" />
                         </div>
                     </div>
                 </form>
                 <div className="field">
-                    <div class="control">
+                    <div className="control">
                         <Link to="/" className={this.state.lanjuut}>
-                            <button class="button is-primary">Kembali ke Beranda</button>
+                            <button className="button is-primary">Kembali ke Beranda</button>
                         </Link>
                     </div>
                 </div>

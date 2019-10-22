@@ -3,18 +3,43 @@ import { Link } from 'react-router-dom';
 import './Lapor.css';
 
 
-export default class Home extends  Component {
+export default class Lapor extends  Component {
     constructor(props) {
         super(props);
         const { match: { params }} = this.props;
         this.state = {
             latitude: params.latitude,
-            longitude: params.longitude
+            longitude: params.longitude,
+            isi: "null",
+            jenis: "null"
         }
     }
 
-    _laporMang() {
-        
+    myChangeHandler = (event) => {
+        let nam = event.target.name;
+        let val = event.target.value;
+        this.setState({[nam]: val});
+    }
+
+    submitMang = () => {
+        axios.post("https://earthmarta.herokuapp.com/lapor/", {
+            jenis: String(this.state.jenis),
+            isi: String(this.state.isi),
+            latitude: Number(this.state.latitude),
+            longitude: Number(this.state.longitude)
+        })
+        .then( (response) => {
+            console.log(response);
+            if(String(response.data) === "berhasil") {
+                this.setState({
+                    isian: "none",
+                    submited: "tampil"
+                })
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
     }
 
     render() {
@@ -38,7 +63,7 @@ export default class Home extends  Component {
                                     <p className="control">
                                         <Link className="bd-tw-button button" to="/">
                                             <span className="icon">
-                                                <i class="fas fa-home"></i>
+                                                <i className="fas fa-home"></i>
                                             </span>
                                             <span>
                                                 Beranda
@@ -48,7 +73,7 @@ export default class Home extends  Component {
                                     <p className="control">
                                         <Link className="button" to="/profil/">
                                             <span className="icon">
-                                                <i class="far fa-id-badge"></i>
+                                                <i className="far fa-id-badge"></i>
                                             </span>
                                             <span>Profil Saya</span>
                                         </Link>
@@ -59,25 +84,25 @@ export default class Home extends  Component {
                     </div>
                 </nav>
                 <h3 className="title is-1" id="lapora">LAPOR</h3>
-                    <div id="form-lapora">
+                <form id="form-lapora">
                     <div className="field">
                         <div className="select is-rounded">
-                            <select>
-                                <option>Saya dalam Bahaya</option>
-                                <option>Angkot Bermasalah</option>
-                                <option>Bug Aplikasi</option>
+                            <select name="jenis" onChange={this.myChangeHandler}>
+                                <option value="bahaya">Saya dalam Bahaya</option>
+                                <option value="bermasalah">Angkot Bermasalah</option>
+                                <option value="burger">Bug Aplikasi</option>
                             </select>
                         </div>
                     </div>
                     <div className="field">
-                        <textarea className="textarea" placeholder="e.g. Hello world"></textarea>
+                        <textarea className="textarea" placeholder="e.g. Hello world" name="isi" onChange={this.myChangeHandler}></textarea>
                     </div>
                     <div className="field">
-                        <div class="control">
-                            <button class="button is-primary">Submit</button>
+                        <div className="control">
+                            <button className="button is-primary" onClick={this.submitMang}>Submit</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         )
     }

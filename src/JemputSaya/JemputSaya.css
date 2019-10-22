@@ -15,3 +15,21 @@
 #hmmm {
     float: right;
 }
+#bintg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+.dilngt {
+    padding: 10px;
+}
+.dilngt button {
+
+    padding: 5px 10px;
+    border-radius: 1rem;
+    border: 1px solid #2e2e2e;
+    font-family: sans-serif;
+    font-size: 14px;
+
+}

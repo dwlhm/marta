@@ -30,7 +30,7 @@ export default class Home extends  Component {
                     <p className="control">
                       <Link className="bd-tw-button button" to="/">
                         <span className="icon">
-                        <i class="fas fa-home"></i>
+                        <i className="fas fa-home"></i>
                         </span>
                         <span>
                           Beranda
@@ -40,7 +40,7 @@ export default class Home extends  Component {
                     <p className="control">
                       <Link className="button is-primary" to="/lapor/">
                         <span className="icon">
-                          <i class="fas fa-bug"></i>
+                          <i className="fas fa-bug"></i>
                         </span>
                         <span>Laporkan</span>
                       </Link>

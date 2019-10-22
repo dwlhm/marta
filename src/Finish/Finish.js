@@ -21,7 +21,7 @@ export default class Finish extends  Component {
         axios.get("https://earthmarta.herokuapp.com/penumpang/"+this.state.token+"/"+this.state.rating)
         .then( (response) => {
             console.log(response);
-            if(Number(response.statusCode) == 200) {
+            if(Number(response.statusCode) === 200) {
                 this.setState({
                     getReq: "tampil",
                     loading: "none",
@@ -43,11 +43,11 @@ export default class Finish extends  Component {
         return (
             <div id="finish">
                 <div className="field">
-                    <div class="control">
+                    <div className="control">
                         <h3 className={this.state.loading}>Loading...</h3>
                         <h3 className={this.state.error}>ERROR...</h3>
                         <Link to="/" className={this.state.getReq}>
-                            <button class="button is-primary">Kembali ke Beranda</button>
+                            <button className="button is-primary">Kembali ke Beranda</button>
                         </Link>
                     </div>
                 </div>

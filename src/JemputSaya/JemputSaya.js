@@ -4,43 +4,173 @@ import { Link } from 'react-router-dom';
 import './JemputSaya.css';
 
 
-export default class Home extends  Component {
+export default class JemputSaya extends  Component {
     constructor(props) {
         super(props);
         const { match: { params }} = this.props;
         this.state = {
             getReq: "none",
             loading: "tampil",
+            nonea: "none",
+            turunDisp: "none",
+            terimakasih: "none",
+            rating: "none",
+            bintang: "0 bintang".
             latitude: params.latitude,
             longitude: params.longitude,
             token: params.token,
-            angkotId: "null",
-            harga: "null",
-            supir: "null",
-            nomor: "null",
-            content: "null",
-            naik: "tampil",
-            turun: "none"
+            counter: 0,
+            angkot: {
+                penumpang: 0,
+                jemputan: 0,
+                jarak: 0,
+                harga: "loading",
+                supir: "loading",
+                nomor: "loading",
+                content: "loading",
+                id: "null",
+                penumpang: "loading"
+            }
         }
     }
 
     componentWillMount () {
-        axios.post("https://earthmarta.herokuapp.com/penumpang/", {
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            token: this.state.token
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude)
+        .then((response) => {
+            console.log(response);
+            if(Number(response.status) === 200 && String(response.data) !== "WEH ANGKOT ANYING DIDEKET MANEH MAHG, MINDAH MAKANA!") {
+                this.setState({
+                    getReq: "tampil",
+                    loading: "none",
+                    nonea: "none",
+                    turunDisp: "none",
+                    naik: "tampil",
+                    rating: "none",
+                    terimakasih: "none",
+                    angkot: {
+                        penumpang: 0,
+                        jemputan: 0,
+                        turun: 0,
+                        jarak: response.data.angkot1.jarak,
+                        id: response.data.angkot1.id,
+                        harga: "loading",
+                        supir: "loading",
+                        nomor: "loading",
+                        content: "loading"
+                    }
+                });
+                axios.get("https://earthmarta.herokuapp.com/angkot/" + this.state.angkot.id + "/profil")
+                .then( (response) => {
+                    if (Number(response.status) == 200 && String(response.data) !== "EWEH ANYING SIETA MAH NTEU NGADAFTAR DEUH!") {
+                        this.setState({
+                            angkot: {
+                                id: String(this.state.angkot.id),
+                                jarak: Number(this.state.angkot.jarak),
+                                supir: String(response.data.supir),
+                                content: String(response.data.content),
+                                nomor: String(response.data.nomor),
+                                penumpang: String(response.data.penumpang),
+                                harga: String(response.data.harga),
+                            }
+                        });
+                        console.log(response);
+                    } else {}
+                })
+            } else if(String(response.data) === "WEH ANGKOT ANYING DIDEKET MANEH MAHG, MINDAH MAKANA!") {
+                this.setState({
+                    getReq: "none",
+                    loading: "none",
+                    nonea: "tampil",
+                    naik: "none",
+                    rating: "none",
+                    turunDisp: "none",
+                    terimakasih: "none"
+                });
+            } else {
+                this.setState({
+                    getReq: "none",
+                    loading: "tampil",
+                    nonea: "none",
+                    naik: "none",
+                    rating: "none",
+                    turunDisp: "none",
+                    terimakasih: "none"
+                })
+            }
         })
+        .catch( (error) => {
+            console.log(error);
+        })
+            
+    }
+
+    componentDidMount () => {
+        this.interval = setInterval( () => {
+            if (String(this.state.nonea) === "tampil") {
+                axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude)
+                .then((response) => {
+                    console.log(response);
+                    if(Number(response.status) === 200 && String(response.data) !== "WEH ANGKOT ANYING DIDEKET MANEH MAHG, MINDAH MAKANA!") {
+                        this.setState({
+                            getReq: "tampil",
+                            loading: "none",
+                            nonea: "none",
+                            turunDisp: "none",
+                            naik: "tampil",
+                            rating: "none",
+                            terimakasih: "none"
+                            angkot: {
+                                penumpang: 0,
+                                jemputan: 0,
+                                turun: 0,
+                                jarak: response.data.angkot1.jarak,
+                                id: response.data.angkot1.id,
+                                harga: "loading",
+                                supir: "loading",
+                                nomor: "loading",
+                                content: "loading"
+                            }
+                        });
+                        axios.get("http://localhost:3001/angkot/" + this.state.angkot.id + "/profil")
+                        .then( (response) => {
+                            if (Number(response.status) == 200 && String(response.data) !== "EWEH ANYING SIETA MAH NTEU NGADAFTAR DEUH!") {
+                                this.setState({
+                                    angkot: {
+                                        jemputan: Number(response.data.jemputan),
+                                        id: String(this.state.angkot.id),
+                                        jarak: Number(this.state.angkot.jarak),
+                                        supir: String(response.data.supir),
+                                        content: String(response.data.content),
+                                        nomor: String(response.data.nomor),
+                                        penumpang: Number(response.data.penumpang),
+                                        harga: String(response.data.harga),
+                                    }
+                                });
+                                console.log(response);
+                            } else {}
+                        })
+                    }
+                })
+                .catch( (error) => {
+                    console.log(error);
+                })
+            } else {}
+        }, 1000);
+    }  
+
+    naikMang = () => {
+        axios.get("http://localhost:3001/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.angkot.penumpang) + "/" + String(this.state.angkot.jemputan) + "/naik")
         .then( (response) => {
             console.log(response);
-            if(Number(response.statusCode) == 200) {
+            if(String(response.data) === "berhasil") {
                 this.setState({
-                    angkotId: String(response.angkotId),
-                    harga: String(response.harga),
-                    supir: String(response.supir),
-                    nomor: String(response.nomor),
-                    content: String(response.content),
                     getReq: "tampil",
-                    loading: "none"
+                    loading: "none",
+                    nonea: "none",
+                    naik: "none",
+                    rating: "none",
+                    turunDisp: "tampil",
+                    terimakasih: "none"
                 })
             }
         })
@@ -49,14 +179,40 @@ export default class Home extends  Component {
         })
     }
 
-    _naikMang (tokenMang) {
-        axios.get("https://earthmarta.herokuapp.com/penumpang/"+tokenMang+"/naik")
+    turunMang = () => {
+        axios.get("http://localhost:3001/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.angkot.penumpang) + "/" + String(this.state.angkot.jemputan) + "/turun")
         .then( (response) => {
             console.log(response);
-            if(Number(response.statusCode) == 200) {
+            if(String(response.data) === "berhasil") {
                 this.setState({
+                    getReq: "tampil",
+                    loading: "none",
+                    nonea: "none",
                     naik: "none",
-                    turun: "tampil"
+                    turunDisp: "none",
+                    rating: "tampil",
+                    terimakasih: "none"
+                })
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
+    }   
+
+    ratingMang = () => {
+        axios.get("http://localhost:3001/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.bintang))
+        .then( (response) => {
+            console.log(response);
+            if(String(response.data) === "berhasil") {
+                this.setState({
+                    getReq: "tampil",
+                    loading: "none",
+                    nonea: "none",
+                    naik: "none",
+                    turunDisp: "none",
+                    rating: "none",
+                    terimakasih: "tampil"
                 })
             }
         })
@@ -67,11 +223,19 @@ export default class Home extends  Component {
 
     render() {
         return (
+
             <div className="jemputsaya">
+            {this._akhe()}
+
                 <h3 className={this.state.loading}>Loading...</h3>
+
+                <h3 className={this.state.nonea}>Tidak ada angkot beroperasi.  
+                    <Link to="/">Kembali</Link>
+                </h3>
+
                 <div className={this.state.getReq}>
                     <div className="card">
-                        <div classname="card-image">
+                        <div className="card-image">
                             <figure className="image is-4by3">
                                 <div id="hmm">
                                     <div className="card-content">
@@ -82,26 +246,54 @@ export default class Home extends  Component {
                                                 </figure>
                                             </div>
                                             <div className="media-content">
-                                                <p className="title is-4">{this.state.supir}</p>
-                                                <p className="subtitle is-6">@{this.state.nomor} - {this.state.angkotId} - Rp. {this.state.harga},00</p>
+                                                <p className="title is-4">{this.state.angkot.supir} ({this.state.angkot.penumpang} penumpang)</p>
+                                                <p className="subtitle is-6">@{this.state.angkot.nomor} - {this.state.angkot.id} - Rp. {String(this.state.angkot.harga)},00 - {this.state.angkot.jarak} meter</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="content">
                                         <p>
-                                            {this.state.content}
+                                            {this.state.angkot.content}
                                         </p>
                                         <div className="field">
                                             <div className="control">
-                                                <Link to={ "/rate/" + this.state.token } className={this.state.turun}>
-                                                    <button class="button is-primary">Perjalanan Selesai</button>
-                                                </Link>
-                                                <a className={this.state.naik} onClick={this._naikMang(this.state.token)}>
-                                                    <button class="button is-primary">Berada dalam Angkot</button>
+
+                                                <a className={this.state.naik}>
+                                                    <button className="button is-primary" onClick={this.naikMang}>Berada dalam Angkot</button>
                                                 </a>
+
+                                                <a className={this.state.turunDisp}>
+                                                    <button className="button is-primary" onClick={this.turunMang}>Sampai ke Tujuan</button>
+                                                </a>
+
+                                                <div className={this.state.rating} >
+                                                    <div id="bintg">
+                                                        <div className="dilngt">
+                                                            <button onClick={ this.setState({bintang: "1 bintang"})}>1 bintang</button>
+                                                        </div>
+                                                        <div className="dilngt">
+                                                            <button onClick={ this.setState({bintang: "2 bintang"})}>2 bintang</button>
+                                                        </div>
+                                                        <div className="dilngt">
+                                                            <button onClick={ this.setState({bintang: "3 bintang"})}>3 bintang</button>
+                                                        </div>
+                                                        <div className="dilngt">
+                                                            <button onClick={ this.setState({bintang: "4 bintang"})}>4 bintang</button>
+                                                        </div>
+                                                        <div className="dilngt">
+                                                            <button onClick={ this.setState({bintang: "5 bintang"})}>5 bintang</button>
+                                                        </div>
+                                                    </div>
+                                                    <button className="button is-primary" onClick={this.ratingMang}>Submit ({this.state.bintang})</button>
+                                                </div>
+
+                                                <Link to="/" className={this.state.terimakasih}>
+                                                    <button className="button is-primary">Kembali ke Beranda</button>
+                                                </Link>
+                                                
                                                 <span>    </span>
                                                 <Link to="/lapor/">
-                                                    <button class="button is-danger" id="hmmm">S.O.S</button>
+                                                    <button className="button is-danger" id="hmmm">S.O.S</button>
                                                 </Link>
                                             </div>
                                         </div>

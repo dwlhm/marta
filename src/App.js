@@ -15,7 +15,7 @@ function App() {
     <div className="App" id="first">
           <Route exact path="/" component={Map} />
             <Route path="/profil/" component={Profil} />
-            <Route path="/lapor/:latitude/:longitude" component={Lapor} />
+            <Route path="/lapor/" component={Lapor} />
             <Route path="/rate/:token" component={Rate} />
             <Route path="/finish/:token" component={Finish} />
             <Route path="/jemputsaya/:latitude/:longitude/:token" component={JemputSaya} />
