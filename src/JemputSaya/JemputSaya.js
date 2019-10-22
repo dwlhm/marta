@@ -131,7 +131,7 @@ export default class JemputSaya extends  Component {
                                 content: "loading"
                             }
                         });
-                        axios.get("http://localhost:3001/angkot/" + this.state.angkot.id + "/profil")
+                        axios.get("https://earthmarta.herokuapp.com/angkot/" + this.state.angkot.id + "/profil")
                         .then( (response) => {
                             if (Number(response.status) == 200 && String(response.data) !== "EWEH ANYING SIETA MAH NTEU NGADAFTAR DEUH!") {
                                 this.setState({
@@ -159,7 +159,7 @@ export default class JemputSaya extends  Component {
     }  
 
     naikMang = () => {
-        axios.get("http://localhost:3001/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.angkot.penumpang) + "/" + String(this.state.angkot.jemputan) + "/naik")
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.angkot.penumpang) + "/" + String(this.state.angkot.jemputan) + "/naik")
         .then( (response) => {
             console.log(response);
             if(String(response.data) === "berhasil") {
@@ -180,7 +180,7 @@ export default class JemputSaya extends  Component {
     }
 
     turunMang = () => {
-        axios.get("http://localhost:3001/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.angkot.penumpang) + "/" + String(this.state.angkot.jemputan) + "/turun")
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.angkot.penumpang) + "/" + String(this.state.angkot.jemputan) + "/turun")
         .then( (response) => {
             console.log(response);
             if(String(response.data) === "berhasil") {
@@ -201,7 +201,7 @@ export default class JemputSaya extends  Component {
     }   
 
     ratingMang = () => {
-        axios.get("http://localhost:3001/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.bintang))
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.bintang))
         .then( (response) => {
             console.log(response);
             if(String(response.data) === "berhasil") {

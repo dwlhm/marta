@@ -64,7 +64,7 @@ export default class Map extends Component {
                         longitude: position.coords.longitude,
                       }})
                     );
-                    axios.get("http://localhost:3001/penumpang/30/" + position.coords.latitude + "/" + position.coords.longitude)
+                    axios.get("https://earthmarta.herokuapp.com/penumpang/30/" + position.coords.latitude + "/" + position.coords.longitude)
                     .then( (response) => {
                         console.log(response);
                         if(String(response) !== "WEH ANGKOT ANYING DIDEKET MANEH MAHG, MINDAH MAKANA!") {
