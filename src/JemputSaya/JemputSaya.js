@@ -15,7 +15,7 @@ export default class JemputSaya extends  Component {
             turunDisp: "none",
             terimakasih: "none",
             rating: "none",
-            bintang: "0 bintang".
+            bintang: "0 bintang",
             latitude: params.latitude,
             longitude: params.longitude,
             token: params.token,
@@ -71,10 +71,14 @@ export default class JemputSaya extends  Component {
                                 nomor: String(response.data.nomor),
                                 penumpang: String(response.data.penumpang),
                                 harga: String(response.data.harga),
+                                jemputan: Number(response.data.jemputan)
                             }
                         });
                         console.log(response);
                     } else {}
+                })
+                .catch( (error) => {
+                    console.log(error);
                 })
             } else if(String(response.data) === "WEH ANGKOT ANYING DIDEKET MANEH MAHG, MINDAH MAKANA!") {
                 this.setState({
@@ -104,7 +108,7 @@ export default class JemputSaya extends  Component {
             
     }
 
-    componentDidMount () => {
+    componentDidMount () {
         this.interval = setInterval( () => {
             if (String(this.state.nonea) === "tampil") {
                 axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude)
@@ -118,7 +122,7 @@ export default class JemputSaya extends  Component {
                             turunDisp: "none",
                             naik: "tampil",
                             rating: "none",
-                            terimakasih: "none"
+                            terimakasih: "none",
                             angkot: {
                                 penumpang: 0,
                                 jemputan: 0,
@@ -154,7 +158,9 @@ export default class JemputSaya extends  Component {
                 .catch( (error) => {
                     console.log(error);
                 })
-            } else {}
+            } else {
+                clearInterval(this.interval);
+            }
         }, 1000);
     }  
 
@@ -200,8 +206,92 @@ export default class JemputSaya extends  Component {
         })
     }   
 
-    ratingMang = () => {
-        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String(this.state.bintang))
+    ratingMang1 = () => {
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String("1 bintang") + "/rating")
+        .then( (response) => {
+            console.log(response);
+            if(String(response.data) === "berhasil") {
+                this.setState({
+                    getReq: "tampil",
+                    loading: "none",
+                    nonea: "none",
+                    naik: "none",
+                    turunDisp: "none",
+                    rating: "none",
+                    terimakasih: "tampil"
+                })
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
+    }
+
+    ratingMang2 = () => {
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String("2 bintang") + "/rating")
+        .then( (response) => {
+            console.log(response);
+            if(String(response.data) === "berhasil") {
+                this.setState({
+                    getReq: "tampil",
+                    loading: "none",
+                    nonea: "none",
+                    naik: "none",
+                    turunDisp: "none",
+                    rating: "none",
+                    terimakasih: "tampil"
+                })
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
+    }
+
+    ratingMang3 = () => {
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String("3 bintang") + "/rating")
+        .then( (response) => {
+            console.log(response);
+            if(String(response.data) === "berhasil") {
+                this.setState({
+                    getReq: "tampil",
+                    loading: "none",
+                    nonea: "none",
+                    naik: "none",
+                    turunDisp: "none",
+                    rating: "none",
+                    terimakasih: "tampil"
+                })
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
+    }
+
+    ratingMang4 = () => {
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String("4 bintang") + "/rating")
+        .then( (response) => {
+            console.log(response);
+            if(String(response.data) === "berhasil") {
+                this.setState({
+                    getReq: "tampil",
+                    loading: "none",
+                    nonea: "none",
+                    naik: "none",
+                    turunDisp: "none",
+                    rating: "none",
+                    terimakasih: "tampil"
+                })
+            }
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
+    }
+
+    ratingMang5 = () => {
+        axios.get("https://earthmarta.herokuapp.com/penumpang/" + String(this.state.token) + "/" + String(this.state.angkot.id) + "/" + String("5 bintang") + "/rating")
         .then( (response) => {
             console.log(response);
             if(String(response.data) === "berhasil") {
@@ -225,7 +315,6 @@ export default class JemputSaya extends  Component {
         return (
 
             <div className="jemputsaya">
-            {this._akhe()}
 
                 <h3 className={this.state.loading}>Loading...</h3>
 
@@ -269,22 +358,21 @@ export default class JemputSaya extends  Component {
                                                 <div className={this.state.rating} >
                                                     <div id="bintg">
                                                         <div className="dilngt">
-                                                            <button onClick={ this.setState({bintang: "1 bintang"})}>1 bintang</button>
+                                                            <button onClick={ this.ratingMang1 }>1 bintang</button>
                                                         </div>
                                                         <div className="dilngt">
-                                                            <button onClick={ this.setState({bintang: "2 bintang"})}>2 bintang</button>
+                                                            <button onClick={ this.ratingMang2 }>2 bintang</button>
                                                         </div>
                                                         <div className="dilngt">
-                                                            <button onClick={ this.setState({bintang: "3 bintang"})}>3 bintang</button>
+                                                            <button onClick={ this.ratingMang3 }>3 bintang</button>
                                                         </div>
                                                         <div className="dilngt">
-                                                            <button onClick={ this.setState({bintang: "4 bintang"})}>4 bintang</button>
+                                                            <button onClick={ this.ratingMang4 }>4 bintang</button>
                                                         </div>
                                                         <div className="dilngt">
-                                                            <button onClick={ this.setState({bintang: "5 bintang"})}>5 bintang</button>
+                                                            <button onClick={ this.ratingMang5 }>5 bintang</button>
                                                         </div>
                                                     </div>
-                                                    <button className="button is-primary" onClick={this.ratingMang}>Submit ({this.state.bintang})</button>
                                                 </div>
 
                                                 <Link to="/" className={this.state.terimakasih}>
