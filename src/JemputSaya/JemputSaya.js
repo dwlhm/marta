@@ -126,7 +126,7 @@ export default class JemputSaya extends  Component {
                             loading: "none",
                             nonea: "none",
                             turunDisp: "none",
-                            naik: "tampil",
+                            naik: "none",
                             rating: "none",
                             terimakasih: "none",
                             angkot: {
@@ -147,7 +147,6 @@ export default class JemputSaya extends  Component {
                                 this.setState({ naik: "tampil" });
                             }
                         })
-                        clearInterval(this.interval);
                         axios.get("https://earthmarta.herokuapp.com/angkot/" + this.state.angkot.id + "/profil")
                         .then( (response) => {
                             if (Number(response.status) == 200 && String(response.data) !== "EWEH ANYING SIETA MAH NTEU NGADAFTAR DEUH!") {
