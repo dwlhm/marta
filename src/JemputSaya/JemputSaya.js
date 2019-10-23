@@ -135,6 +135,13 @@ export default class JemputSaya extends  Component {
                                 content: "loading"
                             }
                         });
+                        axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude + "/konfirmasi")
+                        .then( (response) => {
+                            if(Number(response.status) === 200 && String(response.data) == "berhasil") {
+                                this.setState({ naik: "tampil" });
+                            }
+                        })
+                        clearInterval(this.interval);
                         axios.get("https://earthmarta.herokuapp.com/angkot/" + this.state.angkot.id + "/profil")
                         .then( (response) => {
                             if (Number(response.status) == 200 && String(response.data) !== "EWEH ANYING SIETA MAH NTEU NGADAFTAR DEUH!") {
