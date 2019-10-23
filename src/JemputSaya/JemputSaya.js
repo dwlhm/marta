@@ -80,12 +80,6 @@ export default class JemputSaya extends  Component {
                 .catch( (error) => {
                     console.log(error);
                 })
-                axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude + "/konfirmasi")
-                        .then( (response) => {
-                            if(Number(response.status) === 200 && String(response.data) == "berhasil") {
-                                this.setState({ naik: "tampil" });
-                            }
-                        })
             } else if(String(response.data) === "WEH ANGKOT ANYING DIDEKET MANEH MAHG, MINDAH MAKANA!") {
                 this.setState({
                     getReq: "none",
@@ -126,7 +120,7 @@ export default class JemputSaya extends  Component {
                             loading: "none",
                             nonea: "none",
                             turunDisp: "none",
-                            naik: "none",
+                            naik: "tampil",
                             rating: "none",
                             terimakasih: "none",
                             angkot: {
@@ -141,12 +135,6 @@ export default class JemputSaya extends  Component {
                                 content: "loading"
                             }
                         });
-                        axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude + "/konfirmasi")
-                        .then( (response) => {
-                            if(Number(response.status) === 200 && String(response.data) == "berhasil") {
-                                this.setState({ naik: "tampil" });
-                            }
-                        })
                         axios.get("https://earthmarta.herokuapp.com/angkot/" + this.state.angkot.id + "/profil")
                         .then( (response) => {
                             if (Number(response.status) == 200 && String(response.data) !== "EWEH ANYING SIETA MAH NTEU NGADAFTAR DEUH!") {
@@ -163,6 +151,12 @@ export default class JemputSaya extends  Component {
                                     }
                                 });
                                 console.log(response);
+                                axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude + "/konfirmasi")
+                                .then( (response) => {
+                                    if(Number(response.status) === 200 && String(response.data) == "berhasil") {
+                                        this.setState({ naik: "tampil" });
+                                    }
+                                })
                             } else {}
                         })
                     }
@@ -171,12 +165,7 @@ export default class JemputSaya extends  Component {
                     console.log(error);
                 })
             } else {
-                axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude + "/konfirmasi")
-                .then( (response) => {
-                    if(Number(response.status) === 200 && String(response.data) == "berhasil") {
-                        this.setState({ naik: "tampil" });
-                    }
-                })
+
                 clearInterval(this.interval);
             }
         }, 1000);
