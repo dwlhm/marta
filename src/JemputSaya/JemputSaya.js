@@ -44,7 +44,7 @@ export default class JemputSaya extends  Component {
                     loading: "none",
                     nonea: "none",
                     turunDisp: "none",
-                    naik: "tampil",
+                    naik: "none",
                     rating: "none",
                     terimakasih: "none",
                     angkot: {
@@ -159,6 +159,12 @@ export default class JemputSaya extends  Component {
                     console.log(error);
                 })
             } else {
+                axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude + "/konfirmasi")
+                .then( (response) => {
+                    if(Number(response.status) === 200 && String(response.data) == "berhasil") {
+                        this.setState({ naik: "tampil" });
+                    }
+                })
                 clearInterval(this.interval);
             }
         }, 1000);

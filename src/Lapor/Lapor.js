@@ -16,6 +16,21 @@ export default class Lapor extends  Component {
         }
     }
 
+    componentWillMount () {
+        clearInterval(this.interval);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position);
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+            });
+        } else {
+            console.log("ERROR GEOLOCATION");
+        }
+    }
+
     myChangeHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
@@ -85,25 +100,31 @@ export default class Lapor extends  Component {
                     </div>
                 </nav>
                 <h3 className="title is-1" id="lapora">LAPOR</h3>
-                <form id="form-lapora">
-                    <div className="field">
-                        <div className="select is-rounded">
-                            <select name="jenis" onChange={this.myChangeHandler}>
-                                <option value="bahaya">Saya dalam Bahaya</option>
-                                <option value="bermasalah">Angkot Bermasalah</option>
-                                <option value="burger">Bug Aplikasi</option>
-                            </select>
+                <div className={this.state.isian}>
+                    <form id="form-lapora">
+                        <div className="field">
+                            <div className="select is-rounded">
+                                <select name="jenis" onChange={this.myChangeHandler}>
+                                    <option value="bahaya">Saya dalam Bahaya</option>
+                                    <option value="bermasalah">Angkot Bermasalah</option>
+                                    <option value="burger">Bug Aplikasi</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div className="field">
-                        <textarea className="textarea" placeholder="e.g. Hello world" name="isi" onChange={this.myChangeHandler}></textarea>
-                    </div>
+                        <div className="field">
+                            <textarea className="textarea" placeholder="e.g. Hello world" name="isi" onChange={this.myChangeHandler}></textarea>
+                        </div>
+                        
+                    </form>
                     <div className="field">
                         <div className="control">
                             <button className="button is-primary" onClick={this.submitMang}>Submit</button>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div className={this.state.submited} id="submited">
+                    <p>Laporan anda telah dikonfirmasi, menunggu tindak lanjut selanjutnya...</p>
+                </div>
             </div>
         )
     }
