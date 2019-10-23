@@ -80,6 +80,12 @@ export default class JemputSaya extends  Component {
                 .catch( (error) => {
                     console.log(error);
                 })
+                axios.get("https://earthmarta.herokuapp.com/penumpang/" + this.state.token + "/" + this.state.latitude + "/" + this.state.longitude + "/konfirmasi")
+                        .then( (response) => {
+                            if(Number(response.status) === 200 && String(response.data) == "berhasil") {
+                                this.setState({ naik: "tampil" });
+                            }
+                        })
             } else if(String(response.data) === "WEH ANGKOT ANYING DIDEKET MANEH MAHG, MINDAH MAKANA!") {
                 this.setState({
                     getReq: "none",
